@@ -31,11 +31,14 @@ public class CompositeComponent implements TextComponent {
     }
 
     @Override
-    public String reconstruct() {
-        if (children.isEmpty()) {
-            return "";
-        }
+    public void setChild(int index, TextComponent component) {
+        if (index < 0 || index >= children.size())
+            throw new IndexOutOfBoundsException();
+        children.set(index, component);
+    }
 
+    @Override
+    public String reconstruct() {
         StringBuilder result = new StringBuilder();
         String separator = getSeparator();
 

@@ -5,7 +5,6 @@ import org.example.composite.model.ComponentType;
 import org.example.composite.model.TextComponent;
 import org.example.composite.service.SentenceModifier;
 
-import java.util.Collections;
 import java.util.List;
 
 public class SentenceModifierImpl implements SentenceModifier {
@@ -36,7 +35,9 @@ public class SentenceModifierImpl implements SentenceModifier {
                 }
 
                 if (first < last) {
-                    Collections.swap(children, first, last);
+                    TextComponent temp = children.get(first);
+                    children.set(first, children.get(last));
+                    children.set(last, temp);
                 }
             }
         }
