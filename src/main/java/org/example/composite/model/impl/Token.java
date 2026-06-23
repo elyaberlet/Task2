@@ -60,4 +60,9 @@ public class Token implements TextComponent {
         sb.append("'}");
         return sb.toString();
     }
+
+    @Override
+    public void setChild(int index, TextComponent component) {
+        throw new UnsupportedOperationException("Token is a leaf node");
+    }
 }
