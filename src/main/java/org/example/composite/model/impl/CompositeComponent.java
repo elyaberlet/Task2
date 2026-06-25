@@ -5,7 +5,6 @@ import org.example.composite.model.TextComponent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class CompositeComponent implements TextComponent {
     private final ComponentType type;
@@ -22,7 +21,7 @@ public class CompositeComponent implements TextComponent {
 
     @Override
     public List<TextComponent> getChildren() {
-        return new ArrayList<>(children);
+        return children;
     }
 
     @Override
@@ -31,16 +30,28 @@ public class CompositeComponent implements TextComponent {
     }
 
     @Override
-    public void setChild(int index, TextComponent component) {
-        if (index < 0 || index >= children.size())
-            throw new IndexOutOfBoundsException();
-        children.set(index, component);
-    }
-
-    @Override
     public String reconstruct() {
+        if (children.isEmpty()) {
+            return "";
+        }
+
         StringBuilder result = new StringBuilder();
-        String separator = getSeparator();
+        String separator;
+
+        switch (type) {
+            case TEXT:
+                separator = "\n";
+                break;
+            case PARAGRAPH:
+                separator = "\t";
+                break;
+            case SENTENCE:
+                separator = " ";
+                break;
+            default:
+                separator = "";
+                break;
+        }
 
         for (int i = 0; i < children.size(); i++) {
             result.append(children.get(i).reconstruct());
@@ -51,31 +62,24 @@ public class CompositeComponent implements TextComponent {
         return result.toString();
     }
 
-    private String getSeparator() {
-        switch (type) {
-            case TEXT:
-                return "\n";
-            case PARAGRAPH:
-                return "\t";
-            case SENTENCE:
-                return " ";
-            default:
-                return "";
-        }
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
         CompositeComponent that = (CompositeComponent) obj;
-        return type == that.type && children.equals(that.children);
+        if (type != that.type) return false;
+        if (children == null) {
+            return that.children == null;
+        }
+        return children.equals(that.children);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, children);
+        int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + (children != null ? children.hashCode() : 0);
+        return result;
     }
 
     @Override

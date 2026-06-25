@@ -5,7 +5,7 @@ import org.example.composite.model.TextComponent;
 import org.example.composite.model.impl.CompositeComponent;
 import org.example.composite.parser.AbstractParser;
 
-public class ParagraphParser implements AbstractParser {
+public class WordParser implements AbstractParser {
     private AbstractParser nextParser;
 
     @Override
@@ -19,17 +19,11 @@ public class ParagraphParser implements AbstractParser {
             return;
         }
 
-        String[] sentences = text.trim().split(SENTENCE_SEPARATOR);
+        CompositeComponent word = new CompositeComponent(ComponentType.WORD);
+        component.addChild(word);
 
-        for (String sentence : sentences) {
-            if (sentence.isBlank()) continue;
-
-            CompositeComponent sentenceComponent = new CompositeComponent(ComponentType.SENTENCE);
-            component.addChild(sentenceComponent);
-
-            if (nextParser != null) {
-                nextParser.parse(sentenceComponent, sentence.trim());
-            }
+        if (nextParser != null) {
+            nextParser.parse(word, text);
         }
     }
 }

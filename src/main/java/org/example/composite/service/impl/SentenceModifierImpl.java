@@ -11,10 +11,6 @@ public class SentenceModifierImpl implements SentenceModifier {
 
     @Override
     public TextComponent swapFirstLastLexeme(TextComponent text) throws TextException {
-        if (text.getType() != ComponentType.TEXT) {
-            throw new TextException("Expected TEXT component");
-        }
-
         swapRecursive(text);
         return text;
     }
@@ -48,7 +44,8 @@ public class SentenceModifierImpl implements SentenceModifier {
     }
 
     private boolean isLexeme(TextComponent component) {
-        String text = component.reconstruct().trim();
-        return !text.isEmpty() && text.matches(".*[a-zA-Zа-яА-ЯёЁ].*");
+        return component.getType() == ComponentType.WORD ||
+                component.getType() == ComponentType.PUNCTUATION ||
+                component.getType() == ComponentType.LEXEME;
     }
 }

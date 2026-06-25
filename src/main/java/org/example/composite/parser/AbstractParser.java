@@ -6,10 +6,12 @@ public interface AbstractParser {
 
     String PARAGRAPH_SEPARATOR = "\\n\\s*\\n";
     String SENTENCE_SEPARATOR = "(?<=[.!?])\\s+";
-    String TOKEN_SEPARATOR = "\\s+";
+    String LEXEME_SEPARATOR = "\\s+";
     String WHITESPACE_PATTERN = "\\s+";
+    String WORD_PUNCTUATION_REGEX = "(?=[\\p{Punct}])|(?<=[\\p{Punct}])";
+    String WORD_CHECK_REGEX = ".*\\w+.*";
 
-    TextComponent parse(String input);
+    void parse(TextComponent component, String text);
 
     void setNext(AbstractParser next);
 }

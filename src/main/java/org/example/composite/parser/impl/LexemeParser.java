@@ -5,7 +5,7 @@ import org.example.composite.model.TextComponent;
 import org.example.composite.model.impl.CompositeComponent;
 import org.example.composite.parser.AbstractParser;
 
-public class SentenceParser implements AbstractParser {
+public class LexemeParser implements AbstractParser {
     private AbstractParser nextParser;
 
     @Override
@@ -19,20 +19,27 @@ public class SentenceParser implements AbstractParser {
             return;
         }
 
-        // Создаем SENTENCE
-        CompositeComponent sentence = new CompositeComponent(ComponentType.SENTENCE);
-        component.addChild(sentence);
-
         String[] lexemes = text.trim().split(LEXEME_SEPARATOR);
 
         for (String lexeme : lexemes) {
             if (lexeme.isEmpty()) continue;
 
             CompositeComponent lexemeComponent = new CompositeComponent(ComponentType.LEXEME);
-            sentence.addChild(lexemeComponent);
+            component.addChild(lexemeComponent);
 
-            if (nextParser != null) {
-                nextParser.parse(lexemeComponent, lexeme);
+            String word = lexeme.replaceAll(WORD_PUNCTUATION_REGEX, "");
+            String punctuation = lexeme.replaceAll(WORD_CHECK_REGEX, "");
+
+            if (!word.isEmpty()) {
+                if (nextParser != null) {
+                    nextParser.parse(lexemeComponent, word);
+                }
+            }
+
+            if (!punctuation.isEmpty()) {
+                if (nextParser != null) {
+                    nextParser.parse(lexemeComponent, punctuation);
+                }
             }
         }
     }

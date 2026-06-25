@@ -4,5 +4,8 @@ public enum ComponentType {
     TEXT,
     PARAGRAPH,
     SENTENCE,
-    TOKEN
+    WORD,
+    LEXEME,
+    PUNCTUATION,
+    SYMBOL
 }
