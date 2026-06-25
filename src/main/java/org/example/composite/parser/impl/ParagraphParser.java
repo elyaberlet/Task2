@@ -19,7 +19,7 @@ public class ParagraphParser implements AbstractParser {
             return;
         }
 
-        String[] sentences = text.trim().split(SENTENCE_SEPARATOR);
+        String[] sentences = text.strip().split(SENTENCE_SEPARATOR);
 
         for (String sentence : sentences) {
             if (sentence.isBlank()) continue;

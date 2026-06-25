@@ -19,11 +19,10 @@ public class SentenceParser implements AbstractParser {
             return;
         }
 
-        // Создаем SENTENCE
         CompositeComponent sentence = new CompositeComponent(ComponentType.SENTENCE);
         component.addChild(sentence);
 
-        String[] lexemes = text.trim().split(LEXEME_SEPARATOR);
+        String[] lexemes = text.strip().split(LEXEME_SEPARATOR);
 
         for (String lexeme : lexemes) {
             if (lexeme.isEmpty()) continue;

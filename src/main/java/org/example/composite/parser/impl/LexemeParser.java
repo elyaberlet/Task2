@@ -19,7 +19,7 @@ public class LexemeParser implements AbstractParser {
             return;
         }
 
-        String[] lexemes = text.trim().split(LEXEME_SEPARATOR);
+        String[] lexemes = text.strip().split(LEXEME_SEPARATOR);
 
         for (String lexeme : lexemes) {
             if (lexeme.isEmpty()) continue;
